@@ -1,0 +1,10 @@
+port: 8000
+mode: dev
+
+# refer https://github.com/go-sql-driver/mysql#dsn-data-source-name for details
+db:
+  dns: root:root@tcp(127.0.0.1:3306)/assert?charset=utf8mb4&parseTime=True&loc=Local
+
+jwt:
+  secret: 9cb1e2e52cf8ec0a04724c184f6bb3f9
+  duration: 3600
