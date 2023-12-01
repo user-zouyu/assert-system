@@ -27,7 +27,7 @@ const Home = () => {
                         style={{
                             minHeight: "calc(100vh - 64px)"
                         }}>
-                        <Menus/>
+                        <Menus user={loaderData}/>
                     </Sider>
                     <Content
                         style={{

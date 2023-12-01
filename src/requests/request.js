@@ -1,6 +1,5 @@
 import axios from "axios";
 import {baseUrl} from "./urls.js";
-import {useNavigate} from "react-router-dom";
 
 const request = axios.create({
     baseURL: baseUrl

@@ -15,8 +15,6 @@ const Logo = () => {
 
 
 const Nav = (params) => {
-    console.log("params", params)
-    console.log(params.user.username);
     const navigate = useNavigate();
     const logout = () => {
         window.localStorage.removeItem("token")

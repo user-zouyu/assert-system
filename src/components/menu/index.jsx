@@ -1,7 +1,8 @@
-import {Fragment} from "react";
+import {Fragment, useContext, useEffect, useState} from "react";
 import {Menu} from "antd";
 import {CarOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
+import UserContext from "../../routes/UserContext.jsx";
 
 
 const userMenus = [
@@ -28,14 +29,26 @@ const adminMenus = [
         icon: <CarOutlined/>,
         label: "Page 2",
     },
+    {
+        key: "/home/page3",
+        icon: <CarOutlined/>,
+        label: "Page 3",
+    },
 ]
 
-const Menus = () => {
+const Menus = (params) => {
     const navigate = useNavigate();
+    const [menus, setMenus] = useState([])
+    useEffect(() => {
+        if (params.user.type === "admin") {
+            setMenus([...adminMenus])
+        } else if (params.user.type === "user") {
+            setMenus([...userMenus])
+        }
+    }, [params.user.type])
     const clickHandler = ({key}) => {
         navigate(key)
     }
-    const menus = userMenus
     return (
         <Fragment>
             <div>
