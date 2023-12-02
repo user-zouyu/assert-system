@@ -15,7 +15,6 @@ const Home = () => {
                 <Header
                     style={{
                         height: "64px",
-                        width: "100vw",
                         borderBottom: "1px #FCFCFC",
                         backgroundColor: "#FFFFFF"
                     }}>

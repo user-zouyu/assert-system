@@ -1,12 +1,20 @@
 import {Fragment} from 'react';
-import {useLoaderData} from "react-router-dom";
+import {currentUser} from "../../utils/user.js";
+
 
 const Default = () => {
-    const loaderData = useLoaderData()
-    console.log("loaderData", loaderData)
+    const user = currentUser();
     return (
         <Fragment>
-            <div>欢迎使用 {loaderData}</div>
+            <div style={{
+                height: "100%",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+            }}>
+                <div style={{fontSize: "40px"}}>欢迎 {user.username}</div>
+            </div>
         </Fragment>
     )
 }

@@ -24,7 +24,7 @@ const Nav = (params) => {
     return (
         <Fragment>
             <div style={{
-                display: "flex"
+                display: "flex",
             }}>
                 <div style={{
                     left: 0,
@@ -47,7 +47,7 @@ const Nav = (params) => {
                             alignItems: "center",
                         }}>
                             <Avatar icon={<UserOutlined/>}/>
-                            <div style={{marginLeft: "8px"}}>{params.user.username}</div>
+                            {params.user?.username ? <div style={{marginLeft: "8px"}}>{params.user?.username}</div>: <div>未登录</div>}
                         </div>
                     </Popover>
 

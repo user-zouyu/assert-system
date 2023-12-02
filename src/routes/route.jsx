@@ -1,22 +1,15 @@
 import {Fragment, useState} from "react";
-import {createBrowserRouter, json, Navigate, redirect, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, Navigate, RouterProvider} from "react-router-dom";
 import Home from "../pages/index.jsx";
 import RouteContext from "./RouteContext.jsx";
 import UserContext from "./UserContext.jsx";
 import Default from "../pages/default/index.jsx";
-import {getUserInfo} from "../requests/http.js";
 import Login from "../pages/login/index.jsx";
+import loader from "./loader.js";
+import AddAssert from "../pages/AddAssert/index.jsx";
+import AssertList from "../pages/AssertList/index.jsx";
+import Operate from "../pages/Operate/index.jsx";
 
-
-const loader = async ({request}) => {
-    console.log("request", request)
-    const {code, data} = await getUserInfo()
-    if (code === 200) {
-        console.log("data", data)
-        return json(data)
-    }
-    redirect("/login")
-}
 
 const defaultRoutes = () => {
 
@@ -31,16 +24,16 @@ const defaultRoutes = () => {
                     element: <Default/>
                 },
                 {
-                    path: "/home/page1",
-                    element: <div>Page 1</div>
+                    path: "/home/assert_list",
+                    element: <AssertList/>
                 },
                 {
-                    path: "/home/page2",
-                    element: <div>Page 2</div>
+                    path: "/home/assert_add",
+                    element: <AddAssert/>,
                 },
                 {
-                    path: "/home/page3",
-                    element: <Page3/>
+                    path: "/home/operate",
+                    element: <Operate/>,
                 },
                 {
                     path: "/home/*",
@@ -73,13 +66,6 @@ const Route = () => {
     )
 }
 
-const Page3 = () => {
-    return (
-        <Fragment>
-            <div>Page 3 <div>Page OK</div></div>
-        </Fragment>
-    )
-}
 
 // const Page2 = () => {
 //     const route = useContext(RouteContext)

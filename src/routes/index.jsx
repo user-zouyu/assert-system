@@ -1,39 +1,79 @@
 import {createBrowserRouter, Navigate} from "react-router-dom";
 import Home from "../pages/index.jsx";
-import RouteContext from "./RouteContext.jsx";
+import loader from "./loader.js";
+import Default from "../pages/default/index.jsx";
+import Login from "../pages/login/index.jsx";
 
-const routes = createBrowserRouter([
+const adminRoutes = createBrowserRouter([
     {
-        path: "/",
+        path: "/home",
         element: <Home/>,
-        action: function () {
-            console.log(arguments)
-        },
-        loader: function () {
-            console.log(arguments)
-
-        },
+        loader: loader,
         children: [
             {
-                path: "/page1",
-                element: <div>Page 1</div>
+                index: true,
+                element: <Default/>
             },
             {
-                path: "/page2",
-                element: () => {
-                    // const route = useContext()
-                    console.log("context", RouteContext)
-                    return (
-                        <div>Page 2</div>
-                    )
-                }
+                path: "/home/page1",
+                element: <div>adminRoutes 1</div>
             },
             {
-                path: "/*",
-                element: <Navigate to="/"/>
+                path: "/home/page2",
+                element: <div>adminRoutes 2</div>
+            },
+            {
+                path: "/home/*",
+                element: <Navigate to="/home"/>
             }
         ]
+    },
+    {
+        path: "/login",
+        element: <Login/>
+    },
+    {
+        path: "/*",
+        element: <Navigate to={"/home"}/>
     }
 ])
 
-export default routes
+
+const userRoutes = createBrowserRouter([
+    {
+        path: "/home",
+        element: <Home/>,
+        loader: loader,
+        children: [
+            {
+                index: true,
+                element: <Default/>
+            },
+            {
+                path: "/home/page1",
+                element: <div>userRoutes</div>
+            },
+            {
+                path: "/home/page2",
+                element: <div>userRoutes</div>
+            },
+            {
+                path: "/home/*",
+                element: <Navigate to="/home"/>
+            }
+        ]
+    },
+    {
+        path: "/login",
+        element: <Login/>
+    },
+    {
+        path: "/*",
+        element: <Navigate to={"/home"}/>
+    }
+])
+
+export {
+    adminRoutes,
+    userRoutes,
+}

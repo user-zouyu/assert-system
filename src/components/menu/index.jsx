@@ -1,51 +1,53 @@
-import {Fragment, useContext, useEffect, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
 import {Menu} from "antd";
 import {CarOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
-import UserContext from "../../routes/UserContext.jsx";
 
 
 const userMenus = [
     {
-        key: "/home/page1",
+        key: "/home/assert_list",
         icon: <CarOutlined/>,
-        label: "Page 1",
+        label: "所有资产",
     },
     {
-        key: "/home/page2",
+        key: "/home/operate",
         icon: <CarOutlined/>,
-        label: "Page 2",
-    },
+        label: "资产借用记录",
+    }
 ]
 
 const adminMenus = [
     {
-        key: "/home/page1",
+        key: "/home/assert_list",
         icon: <CarOutlined/>,
-        label: "Admin Page 1",
+        label: "所有资产",
     },
     {
-        key: "/home/page2",
+        key: "/home/assert_add",
         icon: <CarOutlined/>,
-        label: "Page 2",
+        label: "添加资产",
     },
     {
-        key: "/home/page3",
+        key: "/home/operate",
         icon: <CarOutlined/>,
-        label: "Page 3",
+        label: "资产管理",
     },
+
 ]
 
 const Menus = (params) => {
     const navigate = useNavigate();
     const [menus, setMenus] = useState([])
     useEffect(() => {
-        if (params.user.type === "admin") {
-            setMenus([...adminMenus])
-        } else if (params.user.type === "user") {
-            setMenus([...userMenus])
+        if (params.user?.type) {
+            if (params.user.type && params.user.type === "admin") {
+                setMenus([...adminMenus])
+            } else if (params.user.type && params.user.type === "user") {
+                setMenus([...userMenus])
+            }
         }
-    }, [params.user.type])
+    }, [params])
     const clickHandler = ({key}) => {
         navigate(key)
     }
@@ -53,6 +55,7 @@ const Menus = (params) => {
         <Fragment>
             <div>
                 <Menu
+
                     items={menus}
                     onClick={clickHandler}
                 />

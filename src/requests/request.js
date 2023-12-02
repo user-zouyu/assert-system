@@ -1,5 +1,6 @@
 import axios from "axios";
 import {baseUrl} from "./urls.js";
+import {message} from "antd";
 
 const request = axios.create({
     baseURL: baseUrl
@@ -7,7 +8,6 @@ const request = axios.create({
 
 request.interceptors.request.use((config) => {
     const token = window.localStorage.getItem("token")
-    console.log("token", token)
     if (token) {
         config.headers["Authorization"] = `Bearer ${token}`
     }
@@ -16,18 +16,19 @@ request.interceptors.request.use((config) => {
 
 
 request.interceptors.response.use((response) => {
-    console.log("response")
     if (response.status === 403) {
-        console.log("403")
         window.location.href = "/login"
     }
 
     return response.data
 }, (error) => {
-    if (error.response.status === 403) {
-        console.log("e403")
+    if (error.response?.status === 403) {
         window.location.href = "/login"
     }
+
+    message.info(error.response?.data?.msg).then(() => {
+    })
+
     return Promise.reject(error);
 })
 
