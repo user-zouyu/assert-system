@@ -12,3 +12,11 @@ func Ok(ctx *gin.Context, data interface{}) {
 		"data": data,
 	})
 }
+
+func OkWithMsg(ctx *gin.Context, data interface{}, msg string) {
+	ctx.JSON(http.StatusOK, gin.H{
+		"code": http.StatusOK,
+		"msg":  msg,
+		"data": data,
+	})
+}

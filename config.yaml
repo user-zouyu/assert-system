@@ -7,4 +7,4 @@ db:
 
 jwt:
   secret: 9cb1e2e52cf8ec0a04724c184f6bb3f9
-  duration: 3600
+  duration: 24

@@ -3,6 +3,8 @@ package router
 import (
 	"com.zouyu/pkg/api"
 	conf "com.zouyu/pkg/config"
+	"com.zouyu/pkg/router/middleware"
+	"com.zouyu/pkg/utils/httpx"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -14,6 +16,7 @@ func InitAndRun() {
 	}
 
 	r := gin.Default()
+	r.Use(middleware.Cors())
 
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
@@ -22,9 +25,34 @@ func InitAndRun() {
 	})
 
 	auth := r.Group("/api/auth")
-	auth.POST("/login", api.LoginApi)
+	{
+		auth.POST("/login", api.LoginApi)
+	}
 
-	//api := r.Group("/api")
+	user := r.Group("/api/user")
+	user.Use(middleware.Jwt())
+	{
+		user.GET("/info", api.GetUser)
+		user.GET("/assert", api.ListAssert)
+		user.POST("/assert", api.AddAssert)
+		user.DELETE("/assert", api.DelAssert)
+
+		user.GET("/operate", api.GetOperate)
+		user.POST("/operate", api.PostOperate)
+		user.PUT("/operate/cancel", api.CancelOperate)
+		user.PUT("/operate", api.PutOperate)
+		user.PUT("/operate/consent", api.ConsentOperate)
+		user.GET("/operate/all", api.AllOperate)
+
+	}
+
+	r.NoMethod(func(ctx *gin.Context) {
+		httpx.BadRequest(ctx, "不支持该方法")
+	})
+
+	r.NoRoute(func(ctx *gin.Context) {
+		httpx.NotFound(ctx, "资源不存在")
+	})
 
 	run(r)
 }

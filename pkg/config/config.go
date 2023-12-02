@@ -2,7 +2,6 @@ package conf
 
 import (
 	"github.com/spf13/viper"
-	"time"
 )
 
 var Conf conf
@@ -35,6 +34,6 @@ type db struct {
 }
 
 type jwt struct {
-	Secret   string        `yaml:"secret" json:"secret"`
-	Duration time.Duration `yaml:"duration" json:"duration"`
+	Secret   string `yaml:"secret" json:"secret"`
+	Duration int64  `yaml:"duration" json:"duration"`
 }

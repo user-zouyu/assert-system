@@ -18,7 +18,7 @@ type loginRequest struct {
 }
 
 type userVO struct {
-	ID        uint      `json:"id"`
+	ID        int64     `json:"id"`
 	Username  string    `json:"username"`
 	Type      string    `json:"type"`
 	CreatedAt time.Time `json:"createdAt"`
@@ -33,7 +33,7 @@ func LoginApi(ctx *gin.Context) {
 	var req loginRequest
 	if err := ctx.BindJSON(&req); err != nil {
 		zap.L().Info("参数错误", zap.Error(err))
-		httpx.ParamsError(ctx, "参数错误")
+		httpx.BadRequest(ctx, "参数错误")
 		return
 	}
 
@@ -42,26 +42,26 @@ func LoginApi(ctx *gin.Context) {
 	err := conf.DB.Model(&model.User{}).Where("username = ?", req.Username).First(&user).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		zap.L().Info("用户不存在", zap.String("username", req.Username))
-		httpx.ParamsError(ctx, "用户不存在")
+		httpx.BadRequest(ctx, "用户不存在")
 		return
 	}
 
 	if err != nil {
 		zap.L().Error("处理出错啦", zap.String("username", req.Username))
-		httpx.ParamsError(ctx, "处理出错啦")
+		httpx.BadRequest(ctx, "处理出错啦")
 		return
 	}
 
 	if req.Password != user.Password {
 		zap.L().Info("密码错误", zap.String("username", req.Username))
-		httpx.ParamsError(ctx, "密码错误")
+		httpx.BadRequest(ctx, "密码错误")
 		return
 	}
 
 	token, err := utils.GenToken(user.Username, user.Type)
 	if err != nil {
 		zap.L().Error("token 生成错误", zap.String("username", req.Username), zap.Error(err))
-		httpx.ParamsError(ctx, "处理出错啦")
+		httpx.BadRequest(ctx, "处理出错啦")
 		return
 	}
 

@@ -6,13 +6,13 @@ import (
 )
 
 type Operate struct {
-	ID        uint           `gorm:"primaryKey" json:"id"`
-	AssertID  int            `json:"assertId"`
-	Username  string         `gorm:"index;type:varchar(128)" json:"username"`
-	Password  string         `gorm:"type:varchar(128)" json:"password"`
+	ID        int64          `gorm:"primaryKey" json:"id"`
+	AssertID  int64          `json:"assertId"`
+	Username  string         `gorm:"type:varchar(128);index" json:"username"`
 	Count     int            `gorm:"default:0" json:"count"`
+	Status    string         `gorm:"type:varchar(32);default '审批中'" json:"status"`
 	CreatedAt time.Time      `json:"createdAt"`
 	UpdatedAt time.Time      `json:"updatedAt"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"deletedAt"`
-	//Assert    *Assert        `gorm:"foreignKey:AssertId;references:id" json:"assert"`
+	Assert    *Assert        `json:"assert"`
 }
